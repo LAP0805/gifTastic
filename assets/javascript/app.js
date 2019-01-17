@@ -37,8 +37,9 @@ function clicky(){
 $(".original").on("click", function(){
  $("#gifs").empty();
  $("#addmore").empty();
- 
     var choice= this.id;
+
+    ///get gifs////
     $.ajax({
    url:"https://api.giphy.com/v1/gifs/search?api_key=rBK8HGIicVF5VbhGssb2gMp2tTW5Y9OK&q=" +choice+ "&limit=100&offset=0&rating=G&lang=en",
    method: "GET"
@@ -56,16 +57,16 @@ $(".original").on("click", function(){
     //!!!!! removed the download button, as without "content disposition" being set, it only opens the gif in a separate page. This takes either server side manipulation or php, neither of which I know anything about! This seems pointless so I removed the feature, but wanted to keep the code here for future viewing and fiddling.
         //create download button//
         
-//         var dlButton = $("<button>");
-//         dlButton.text("download");
-//         dlButton.addClass("" +i + "");
-//         dlButton.css({margin:"10px", float:"left"});
+        var dlButton = $("<button>");
+        dlButton.html('<a download href="'+response.data[i].images.downsized.url + '"target ="_blank" >Download</a>');
+        dlButton.addClass("" +i + "");
+        dlButton.css({margin:"10px", float:"left"});
        
         
 // //append final divs to gifs section//
         $("#gifs").append(biggerDiv);
-        // biggerDiv.append(dlButton);
-//         //on download button click do///
+        biggerDiv.append(dlButton);
+        //on download button click do///
 //         $("."+i+"").on("click", function(){
 //             var myClass = $(this).attr("class");
 //    console.log(myClass);
