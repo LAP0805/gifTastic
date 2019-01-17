@@ -37,6 +37,7 @@ function clicky(){
 $(".original").on("click", function(){
  $("#gifs").empty();
  $("#addmore").empty();
+ 
     var choice= this.id;
     $.ajax({
    url:"https://api.giphy.com/v1/gifs/search?api_key=rBK8HGIicVF5VbhGssb2gMp2tTW5Y9OK&q=" +choice+ "&limit=100&offset=0&rating=G&lang=en",
