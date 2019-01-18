@@ -11,11 +11,17 @@ h1 {
 h2{
     width:500px;
 }
-#gifs, #bands{
-background:#75d3f0;
- padding:10px;
- border-radius:10px;
- min-height:100vh;
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+.none-left{
+    clear:left;
+}
+.col-lg-6{
+    border:red solid 2px;
 }
 .instructions{
  background:#75d3f0;
