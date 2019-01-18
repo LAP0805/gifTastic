@@ -73,6 +73,7 @@ function clicky(){
    })
   }
   clicky();
+  
    $("#gifs").on("click","div", function(){
      var dataVal= ($(this).attr("data-value"));
      if(clicks === 0){
@@ -100,8 +101,8 @@ $("#all").on("click","#more",function(){
     $.get(queryurlBands).then(function(response){
       console.log(response);
       $("#bands").append("<h1>" + response.name + "</h1>");
-      $("#bands").append("<img src=" + response.image_url + " height=200px width=200px>");
-      $("#bands").append('<br>BandsInTown webpage:' + '<a href="'+ response.url+ '" target="_blank">'+ response.name +'</a>');
+      $("#bands").append("<img src=" + response.image_url + " height=300px width=300px>");
+      $("#bands").append('<br><h5>BandsInTown webpage: ' + '<a href="'+ response.url+ '" target="_blank">'+ response.name +'</a></h5>');
       
   }).catch(function(e){
     $("#bands").html("no such bands!");
