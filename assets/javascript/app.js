@@ -49,7 +49,8 @@ $(".original").on("click", function(){
         var div = $("<div>");
         var biggerDiv= $("<div>");
         div.css({margin:"10px",float:"left"});
-        div.attr("id",i);
+        div.attr("id","image" + i);
+        div.attr("data-value",i);
         div.html("<img src=" + response.data[i].images.downsized_still.url + " height=200px width=200px>");
         div.append("<br>" + "rating: " +response.data[i].rating);
         biggerDiv.append(div);
@@ -75,17 +76,18 @@ $(".original").on("click", function(){
 
     //on gif click do:///
        var clicks= 0;
-       $("#"+i+"").on("click", function(){
+       $("#image"+i+"").on("click", function(){
+           var cool = ($(this).attr("data-value"));
         if (clicks === 0){
             clicks++;
-        $(this).html("<img src=" + response.data[this.id].images.downsized.url + " height=200px width=200px>");
-        $(this).append("<br>" + "rating: " +response.data[this.id].rating);
+        $(this).html("<img src=" + response.data[cool].images.downsized.url + " height=200px width=200px>");
+        $(this).append("<br>" + "rating: " +response.data[cool].rating);
         
         }
         else {
             clicks --; 
-            $(this).html("<img src=" + response.data[this.id].images.downsized_still.url + " height=200px width=200px>");
-            $(this).append("<br>" + "rating: " +response.data[this.id].rating);
+            $(this).html("<img src=" + response.data[cool].images.downsized_still.url + " height=200px width=200px>");
+            $(this).append("<br>" + "rating: " +response.data[cool].rating);
         }
        });
     }
