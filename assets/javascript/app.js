@@ -8,6 +8,7 @@ $( document ).ready(function() {
     var queryurl = "";
     var clicks = 0;
     var responseGlobal="";
+    var queryurlBands="";
 
     //create buttons//
     function createButtons(){
@@ -31,6 +32,8 @@ $( document ).ready(function() {
       createButtons();
       $('#addAnimal').val('');
       $("#gifs").empty();
+      $("#bands").empty();
+      
     });
 
     function createGifs(){
@@ -52,7 +55,10 @@ $( document ).ready(function() {
         more.attr("id","more");
         more.addClass("btn btn-primary")
         $("#addmore").append(more);
+      }).catch(function(e){
+        $("#gifs").html("no such gifs!");
       })
+  
     }
   
 function clicky(){
@@ -63,6 +69,7 @@ function clicky(){
     choice= this.id;
     queryurl="https://api.giphy.com/v1/gifs/search?api_key=rBK8HGIicVF5VbhGssb2gMp2tTW5Y9OK&q=" +choice+ "&limit=100&offset=0&rating=G&lang=en"
     createGifs();  
+    createBands();
    })
   }
   clicky();
@@ -86,6 +93,19 @@ $("#all").on("click","#more",function(){
     howmany +=10;
     createGifs();
   });
-    
+
+  function createBands(){
+    $("#bands").empty();
+    queryurlBands="https://rest.bandsintown.com/artists/" + choice + "?app_id=hello"
+    $.get(queryurlBands).then(function(response){
+      console.log(response);
+      $("#bands").append("<h1>" + response.name + "</h1>");
+      $("#bands").append("<img src=" + response.image_url + " height=200px width=200px>");
+      $("#bands").append('<br>BandsInTown webpage:' + '<a href="'+ response.url+ '" target="_blank">'+ response.name +'</a>');
+      
+  }).catch(function(e){
+    $("#bands").html("no such bands!");
+  })
+} 
 //on ready closing tab//
 });
