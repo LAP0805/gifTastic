@@ -9,7 +9,7 @@ $( document ).ready(function() {
     var clicks = 0;
     var responseGlobal="";
     var queryurlBands="";
-
+    var favButton = "";
     //create buttons//
     function createButtons(){
       $("#buttons").empty();
@@ -45,16 +45,36 @@ $( document ).ready(function() {
         var newDiv = $("<div>");
         newDiv.attr("data-value",i);
         newDiv.css({float: "left", margin:"10px"});
-        newDiv.html("<img src=" + response.data[i].images.downsized_still.url + " height=200px width=200px>");
+         var newImage = $("<img>")
+        newImage.attr("src", response.data[i].images.downsized_still.url);
+        newImage.css({height:"200px",width:"200px"});
+        newImage.attr("data-still",response.data[i].images.downsized_still.url);
+        newImage.attr("data-animate",response.data[i].images.downsized.url);
+        newImage.attr("data-state","still");
+        newImage.attr("id", "image"+i);
+        newDiv.append(newImage);
         newDiv.append("<br> Rating: " + response.data[i].rating);
+        //create favorites button//
+        var favButton = $("<button>");
+        favButton.addClass("btn btn-success favButton");
+        favButton.text("Add to favorites");
+        favButton.attr("data-value", i);
+        favButton.css({margin:"10px", fontSize:"10px"});
+        newDiv.append(favButton);
+        //append to final div//
         $("#gifs").prepend(newDiv);
-        }
+        };
+        
+        //create add more gifs button//
         $("#addmore").empty();
         var more = $("<button>");
         more.text("click for 10 more gifs!");
         more.attr("id","more");
+        more.css({margin:"10px"});
         more.addClass("btn btn-primary")
-        $("#addmore").append(more);
+        $("#addmore").prepend(more);
+
+        //error catch//
       }).catch(function(e){
         $("#gifs").html("no such gifs!");
       })
@@ -74,19 +94,16 @@ function clicky(){
   }
   clicky();
   
-   $("#gifs").on("click","div", function(){
-     var dataVal= ($(this).attr("data-value"));
-     if(clicks === 0){
-      clicks++;
-     $(this).html("<img src=" + responseGlobal.data[dataVal].images.downsized.url + " height=200px width=200px>");
-     $(this).append("<br> Rating: " + responseGlobal.data[dataVal].rating);
-     }
-     else{
-       clicks --; 
-       $(this).html("<img src=" + responseGlobal.data[dataVal].images.downsized_still.url + " height=200px width=200px>")
-       $(this).append("<br> Rating: " + responseGlobal.data[dataVal].rating);
-     }
-   })
+   $("#gifs").on("click","img", function(){
+     var state= $(this).attr("data-state");
+     if (state === "still") {
+      $(this).attr("src", $(this).attr("data-animate"));
+      $(this).attr("data-state", "animate");
+    } else {
+      $(this).attr("src", $(this).attr("data-still"));
+      $(this).attr("data-state", "still");
+    }
+   });
 
 //add more gifs//
 $("#all").on("click","#more",function(){
