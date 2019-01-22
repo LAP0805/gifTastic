@@ -6,10 +6,8 @@ $( document ).ready(function() {
     var howmany=10;;
     var choice= "";
     var queryurl = "";
-    var clicks = 0;
-    var responseGlobal="";
     var queryurlBands="";
-    var favButton = "";
+
     //create buttons//
     function createButtons(){
       $("#buttons").empty();
