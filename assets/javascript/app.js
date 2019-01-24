@@ -7,9 +7,10 @@ $( document ).ready(function() {
     var choice= "";
     var queryurl = "";
     var queryurlBands="";
-
+    var favresponse = "";
     //create buttons//
     function createButtons(){
+      
       $("#buttons").empty();
       $("#addmore").empty();
       topics.forEach(function(animal){
@@ -38,7 +39,6 @@ $( document ).ready(function() {
       
       $.get(queryurl).then(function(response){
         console.log(response);
-         responseGlobal=response;
         for( var i = count; i < howmany; i ++){
         var newDiv = $("<div>");
         newDiv.attr("data-value",i);
@@ -57,6 +57,7 @@ $( document ).ready(function() {
         favButton.addClass("btn btn-success favButton");
         favButton.text("Add to favorites");
         favButton.attr("data-value", i);
+        favButton.attr("data-animal", choice)
         favButton.css({margin:"10px", fontSize:"10px"});
         newDiv.append(favButton);
         //append to final div//
@@ -92,6 +93,8 @@ function clicky(){
   }
   clicky();
   
+
+  //images switch on click//
    $("#gifs").on("click","img", function(){
      var state= $(this).attr("data-state");
      if (state === "still") {
@@ -110,6 +113,7 @@ $("#all").on("click","#more",function(){
     createGifs();
   });
 
+  //create bands//
   function createBands(){
     $("#bands").empty();
     queryurlBands="https://rest.bandsintown.com/artists/" + choice + "?app_id=hello"
@@ -123,5 +127,87 @@ $("#all").on("click","#more",function(){
     $("#bands").html("no such bands!");
   })
 } 
+
+
+
+
+////favorites baloney////
+var bigfavList= JSON.parse(localStorage.getItem("favlist")) || [];
+
+$("#gifs").on("click","button", function(){
+  console.log(bigfavList);
+bigfavList= JSON.parse(localStorage.getItem("favlist")) || [];
+var dataValue = $(this).attr("data-value");
+var dataAnimal = $(this).attr("data-animal");
+var obj = [dataAnimal, dataValue];
+bigfavList.push(obj);
+var stringList = JSON.stringify(bigfavList);
+localStorage.setItem("favlist",stringList);
+
+
+});
+
+$("#favoritesLink").on("click", function(){
+window.open("favorites.html")
+});
+  
+  function addToFavs(){
+  var favList = localStorage.getItem("favlist");
+  var favoritesList= JSON.parse(favList);
+  
+  favoritesList.forEach(function(item){
+   $.get("https://api.giphy.com/v1/gifs/search?api_key=rBK8HGIicVF5VbhGssb2gMp2tTW5Y9OK&q=" +item[0]+ "&limit=100&offset=0&rating=G&lang=en").then(function(response){
+    var img = $("<img>");
+    var newDiv= $("<div>");
+    img.attr("src", response.data[item[1]].images.downsized_still.url);
+    img.css({height:"200px",width:"200px"});
+    img.attr("data-still",response.data[item[1]].images.downsized_still.url);
+    img.attr("data-animate",response.data[item[1]].images.downsized.url);
+    img.attr("data-state","still");
+    var removebtn = $("<button>")
+    removebtn.addClass("btn btn-danger remove");
+    removebtn.attr("data-animal", item[0]);
+    removebtn.attr("data-number", item[1]);
+    removebtn.text("Remove from favorites");
+    removebtn.css({fontSize:"10px"});
+    newDiv.append(img);
+    newDiv.append(removebtn);
+    $("#favoritesHere").append(newDiv);
+   })
+    
+  })
+}
+  addToFavs();
+//fav images on click switch//
+  $("#favoritesHere").on("click","img", function(){
+    var state= $(this).attr("data-state");
+    if (state === "still") {
+     $(this).attr("src", $(this).attr("data-animate"));
+     $(this).attr("data-state", "animate");
+   } else {
+     $(this).attr("src", $(this).attr("data-still"));
+     $(this).attr("data-state", "still");
+   }
+  });
+  //delete favorites//
+  $("#favoritesHere").on("click","button", function(){
+   $(this).parent().remove();
+   var favoList = localStorage.getItem("favlist");
+   var favoritesList= JSON.parse(favoList);
+   console.log(favoritesList);
+    var toSplice  = [$(this).attr("data-animal"),$(this).attr("data-number")];
+   console.log(toSplice);
+   favoritesList.splice(toSplice, 1);
+   console.log(favoritesList);
+   console.log(bigfavList);
+   bigfavList = favoritesList;
+   //splices and updates fav list but not working elsewhere//
+   var newFavlist = JSON.stringify(favoritesList);
+   localStorage.setItem("favlist", newFavlist);
+
+   
+  });
+
+
 //on ready closing tab//
 });
