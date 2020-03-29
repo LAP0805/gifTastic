@@ -1,38 +1,46 @@
 body {
-    background:url("../images/rainbow1.jpg");
-    background-repeat:no-repeat;
+    background: url("../images/rainbow1.jpg");
+    background-repeat: no-repeat;
     background-size: cover;
 }
 
-h1, h4 {
-    text-align:center;
+h1,
+h4 {
+    text-align: center;
     font-family: 'ZCOOL KuaiLe', cursive;
 }
-h2{
-    width:500px;
-}
-#gifs, #bands, #favoritesHere{
-background:#75d3f0;
- padding:10px;
- border-radius:10px;
- min-height:100vh;
- padding:50px;
-}
-.instructions{
- background:#75d3f0;
- padding:10px;
- border-radius:10px;
- margin:10px;
- text-align:center;
- font-size: 10px;
+
+h2 {
+    width: 500px;
 }
 
-#gifs{
-    overflow:hidden;
+#gifs,
+#bands,
+#favoritesHere {
+    background: #75d3f0;
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 100vh;
+    padding: 50px;
 }
-#addown{
-    text-align:center;
+
+.instructions {
+    background: #75d3f0;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    text-align: center;
+    font-size: 10px;
 }
-#add{
-    margin:10px;
+
+#gifs {
+    overflow: hidden;
+}
+
+#addown {
+    text-align: center;
+}
+
+#add {
+    margin: 10px;
 }
